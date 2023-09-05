@@ -1,16 +1,26 @@
-# This is a sample Python script.
+import os
+import sys
+from pathlib import Path
+from dotenv import load_dotenv
+from fastapi import FastAPI
 
-# Press Maj+F10 to execute it or replace it with your code.
-# Press Double Shift to search everywhere for classes, files, tool windows, actions, and settings.
+PROJECT_PATH = Path(__file__).parent.parent.absolute()
+APP_PATH = PROJECT_PATH / 'app'
+ENV_PATH = PROJECT_PATH / '.env'
 
+sys.path.append(f"{PROJECT_PATH}")
 
-def print_hi(name):
-    # Use a breakpoint in the code line below to debug your script.
-    print(f'Hi, {name}')  # Press Ctrl+F8 to toggle the breakpoint.
+load_dotenv(dotenv_path=ENV_PATH)
 
+os.environ['PROJECT_PATH'] = f'{PROJECT_PATH}'
+os.environ['APP_PATH'] = f'{APP_PATH}'
 
-# Press the green button in the gutter to run the script.
-if __name__ == '__main__':
-    print_hi('PyCharm')
+YOLO_MODEL_PATH = os.getenv('YOLO_MODEL_PATH')
+os.environ['YOLO_MODEL_PATH'] = f'{PROJECT_PATH}/{YOLO_MODEL_PATH}'
 
-# See PyCharm help at https://www.jetbrains.com/help/pycharm/
+# Récupère les routes (doit être importé après la création de la variable environment APP_PATH)
+# noinspection PyPep8
+from app.routers import router
+
+app = FastAPI()
+app.include_router(router)

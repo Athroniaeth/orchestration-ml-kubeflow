@@ -1,5 +1,3 @@
-import __init__
-
 from pathlib import Path
 import os
 
