@@ -1,1 +1,3 @@
 /runs/
+/app/old/*
+/app/weights/*
